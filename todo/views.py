@@ -20,3 +20,17 @@ def mark_as_undone(request, id):
     task.is_completed = False
     task.save()
     return redirect('home')
+
+def edit_task(request, id):
+    task = get_object_or_404(Task, pk=id)
+    if request.method == 'POST':
+        new_task = request.POST['task']
+        task.task = new_task
+        task.save()
+        return redirect('home')
+    else:
+        context = {
+            'task' : task,
+        }
+        return render(request, 'edit_task.html', context)
+
